@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  flask-app:
+    build: .
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/csv_analyzer
+    volumes:
+      - ./uploads:/usr/src/app/uploads
+      - ./web:/usr/src/app/web
+
+  mongo:
+    image: mongo:7.0
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
